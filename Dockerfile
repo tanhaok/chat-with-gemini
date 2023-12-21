@@ -1,4 +1,4 @@
-FROM maven:3.8.5 AS builder
+FROM maven:3.8.8 AS builder
 WORKDIR /workdir/server
 COPY pom.xml /workdir/server/pom.xml
 RUN mvn dependency:go-offline
