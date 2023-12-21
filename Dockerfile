@@ -29,6 +29,5 @@ USER appuser
 EXPOSE 8081
 ARG API_KEY
 ENV API_KEY=${API_KEY}
-
 # Run the application using a specific entry point
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
