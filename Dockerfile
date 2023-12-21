@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk-alpine AS builder
+FROM eclipse-temurin:21-jdk-maven-slim AS builder
 WORKDIR /workdir/server
 COPY pom.xml /workdir/server/pom.xml
 RUN mvn dependency:go-offline
@@ -29,5 +29,6 @@ USER appuser
 EXPOSE 8081
 ARG API_KEY
 ENV API_KEY=${API_KEY}
+
 # Run the application using a specific entry point
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
