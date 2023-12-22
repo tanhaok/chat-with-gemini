@@ -1,6 +1,6 @@
 package com.gemini.app.webhook;
 
-import org.json.JSONObject;
+import java.util.LinkedHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/hook")
 public class WebhookController {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(WebhookController.class);
     private final WebhookImplement webhookImplement;
 
@@ -23,7 +24,8 @@ public class WebhookController {
     }
 
     @PostMapping("/personal")
-    public ResponseEntity<String> webhook(@RequestParam String data, @RequestParam String secretKey) {
+    public ResponseEntity<String> webhook(@RequestParam String data,
+        @RequestParam String secretKey) {
         LOGGER.info("Receive quest with request param: " + data);
         String resp = this.webhookImplement.webhookHandler(data, secretKey);
 
@@ -31,12 +33,19 @@ public class WebhookController {
     }
 
     @GetMapping()
-    public HttpStatus webHook(){
+    public HttpStatus webHook() {
         return HttpStatus.OK;
     }
+
     @PostMapping()
-    public <T> ResponseEntity<String> webHook(@RequestBody T jsonObject){
+    public <T> ResponseEntity<String> webHook(@RequestBody T jsonObject) {
         LOGGER.info(jsonObject.toString());
         return null;
+    }
+
+    @PostMapping("/telegram")
+    public <T extends LinkedHashMap> void webHookTelegram(@RequestParam String secretKey, @RequestBody T jsonObject) {
+        LOGGER.info(jsonObject.toString());
+        this.webhookImplement.sendMessageTelegram(secretKey, jsonObject);
     }
 }

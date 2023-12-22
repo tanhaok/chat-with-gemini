@@ -29,7 +29,10 @@ USER appuser
 # Expose port 8080 (typical for Spring Boot apps)
 EXPOSE 8081
 ARG API_KEY
+ARG TELEGRAM_API_KEY
+
 ENV API_KEY=${API_KEY}
+ENV TELEGRAM_API_KEY=${TELEGRAM_API_KEY}
 
 # Run the application using a specific entry point
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
