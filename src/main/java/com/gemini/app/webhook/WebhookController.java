@@ -35,7 +35,7 @@ public class WebhookController {
         return HttpStatus.OK;
     }
     @PostMapping()
-    public ResponseEntity<String> webHook(@RequestBody JSONObject jsonObject){
+    public <T> ResponseEntity<String> webHook(@RequestBody T jsonObject){
         LOGGER.info(jsonObject.toString());
         return null;
     }
