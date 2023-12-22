@@ -23,25 +23,25 @@ public class WebhookController {
         this.webhookImplement = webhookImplement;
     }
 
-    @PostMapping("/personal")
-    public ResponseEntity<String> webhook(@RequestParam String data,
-        @RequestParam String secretKey) {
-        LOGGER.info("Receive quest with request param: " + data);
-        String resp = this.webhookImplement.webhookHandler(data, secretKey);
-
-        return ResponseEntity.ok(resp);
-    }
-
-    @GetMapping()
-    public HttpStatus webHook() {
-        return HttpStatus.OK;
-    }
-
-    @PostMapping()
-    public <T> ResponseEntity<String> webHook(@RequestBody T jsonObject) {
-        LOGGER.info(jsonObject.toString());
-        return null;
-    }
+//    @PostMapping("/personal")
+//    public ResponseEntity<String> webhook(@RequestParam String data,
+//        @RequestParam String secretKey) {
+//        LOGGER.info("Receive quest with request param: " + data);
+//        String resp = this.webhookImplement.webhookHandler(data, secretKey);
+//
+//        return ResponseEntity.ok(resp);
+//    }
+//
+//    @GetMapping()
+//    public HttpStatus webHook() {
+//        return HttpStatus.OK;
+//    }
+//
+//    @PostMapping()
+//    public <T> ResponseEntity<String> webHook(@RequestBody T jsonObject) {
+//        LOGGER.info(jsonObject.toString());
+//        return null;
+//    }
 
     @PostMapping("/telegram")
     public <T extends LinkedHashMap> void webHookTelegram(@RequestParam String secretKey, @RequestBody T jsonObject) {
