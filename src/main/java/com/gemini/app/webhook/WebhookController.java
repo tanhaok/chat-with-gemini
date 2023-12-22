@@ -3,6 +3,7 @@ package com.gemini.app.webhook;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +31,10 @@ public class WebhookController {
     }
 
     @GetMapping()
+    public HttpStatus webHook(){
+        return HttpStatus.OK;
+    }
+    @PostMapping()
     public ResponseEntity<String> webHook(@RequestBody JSONObject jsonObject){
         LOGGER.info(jsonObject.toString());
         return null;
