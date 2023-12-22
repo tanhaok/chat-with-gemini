@@ -36,8 +36,8 @@ public class WebhookImplement {
             LOGGER.error("SECRET KEY INVALID");
             return "SECRET KEY INVALID";
         }
-        String text = data.replace("\"", "");
-        String reqBody = "{\"contents\":[{\"parts\":[{\"text\":\"" + data + "\"}]}]}";
+        String text = data.replaceAll("[^A-Za-z0-9()\\[\\]]", "");
+        String reqBody = "{\"contents\":[{\"parts\":[{\"text\":\"" + text + "\"}]}]}";
         LOGGER.info("Send request with request body: " + reqBody + " to google api");
         String uri = baseUrl + "?key=" + apiKey;
         String resp = restClient.post().uri(uri).contentType(MediaType.APPLICATION_JSON)
