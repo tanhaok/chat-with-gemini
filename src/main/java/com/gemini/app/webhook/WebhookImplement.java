@@ -25,6 +25,8 @@ public class WebhookImplement {
     private String telegramKey;
     @Value("${telegram.url}")
     private String telegramUrl;
+    @Value("${telegram.user-id}")
+    private String userId;
     private static final String KEY = "text";
 
     public WebhookImplement() {
@@ -62,16 +64,24 @@ public class WebhookImplement {
     }
 
     protected <T extends LinkedHashMap> void sendMessageTelegram(String secretKey, T object) {
+
         try {
             T msgObj = (T) object.get("message");
-            String text = msgObj.get("text").toString();
-            String msg = this.webhookHandler(text, secretKey);
-            T chatObj = (T) msgObj.get("chat");
-            String chatId = chatObj.get("id").toString();
-            String telegramUri =
-                telegramUrl + telegramKey + "/sendMessage" + "?chat_id=" + chatId + "&text=" + msg;
-            String resp = restClient.get().uri(telegramUri).retrieve().body(String.class);
-            LOGGER.info(resp);
+            T fromUser = (T) msgObj.get("from");
+            if (userId.equals(fromUser.get("id").toString())) {
+                String text = msgObj.get("text").toString();
+                String msg = this.webhookHandler(text, secretKey);
+                T chatObj = (T) msgObj.get("chat");
+                String chatId = chatObj.get("id").toString();
+                String telegramUri =
+                    telegramUrl + telegramKey + "/sendMessage" + "?chat_id=" + chatId + "&text="
+                        + msg;
+                String resp = restClient.get().uri(telegramUri).retrieve().body(String.class);
+                LOGGER.info(resp);
+            } else {
+                LOGGER.error("USER ID NOT VALID");
+            }
+
 
         } catch (JSONException e) {
             LOGGER.error(e.toString());
