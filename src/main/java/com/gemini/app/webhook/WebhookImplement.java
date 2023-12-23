@@ -1,6 +1,8 @@
 package com.gemini.app.webhook;
 
 import com.google.common.hash.Hashing;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import org.json.JSONException;
@@ -83,7 +85,8 @@ public class WebhookImplement {
                 String telegramUri =
                     telegramUrl + telegramKey + "/sendMessage" + "?chat_id=" + chatId + "&text="
                         + msg;
-                String resp = restClient.get().uri(telegramUri).retrieve().body(String.class);
+                String uri = URLEncoder.encode(telegramUri, StandardCharsets.UTF_8);
+                String resp = restClient.get().uri(uri).retrieve().body(String.class);
                 LOGGER.info(resp);
             } else {
                 LOGGER.error("USER ID NOT VALID");
