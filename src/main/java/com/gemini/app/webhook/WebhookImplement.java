@@ -56,6 +56,10 @@ public class WebhookImplement {
             result = "Cannot get data";
             LOGGER.error(e.toString());
         }
+        catch (IllegalArgumentException e) {
+            result = "Fuck you";
+            LOGGER.error("Can not get data");
+        }
 
         return result;
     }
@@ -86,7 +90,7 @@ public class WebhookImplement {
             }
 
 
-        } catch (JSONException e) {
+        } catch (JSONException | NullPointerException e) {
             LOGGER.error(e.toString());
         }
 
