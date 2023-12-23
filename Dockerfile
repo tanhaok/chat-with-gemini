@@ -30,11 +30,13 @@ USER appuser
 EXPOSE 8081
 ARG API_KEY
 ARG USER_ID
+ARG SECOND_USER_ID
 ARG TELEGRAM_API_KEY
 
 ENV API_KEY=${API_KEY}
 ENV TELEGRAM_API_KEY=${TELEGRAM_API_KEY}
 ENV USER_ID=${USER_ID}
+ENV SECOND_USER_ID=${SECOND_USER_ID}
 
 # Run the application using a specific entry point
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]

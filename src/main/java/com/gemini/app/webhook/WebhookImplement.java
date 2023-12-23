@@ -27,6 +27,8 @@ public class WebhookImplement {
     private String telegramUrl;
     @Value("${telegram.user-id}")
     private String userId;
+    @Value("${telegram.second-user-id}")
+    private String secondUserId;
     private static final String KEY = "text";
 
     public WebhookImplement() {
@@ -68,7 +70,8 @@ public class WebhookImplement {
         try {
             T msgObj = (T) object.get("message");
             T fromUser = (T) msgObj.get("from");
-            if (userId.equals(fromUser.get("id").toString())) {
+            String id = fromUser.get("id").toString();
+            if (userId.equals(id) || secondUserId.equals(id) ) {
                 String text = msgObj.get("text").toString();
                 String msg = this.webhookHandler(text, secretKey);
                 T chatObj = (T) msgObj.get("chat");
