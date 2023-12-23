@@ -1,7 +1,6 @@
 package com.gemini.app.webhook;
 
 import com.google.common.hash.Hashing;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
@@ -57,8 +56,7 @@ public class WebhookImplement {
         } catch (JSONException e) {
             result = "Cannot get data";
             LOGGER.error(e.toString());
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             result = "Fuck you";
             LOGGER.error("Can not get data");
         }
@@ -77,16 +75,16 @@ public class WebhookImplement {
             T msgObj = (T) object.get("message");
             T fromUser = (T) msgObj.get("from");
             String id = fromUser.get("id").toString();
-            if (userId.equals(id) || secondUserId.equals(id) ) {
+            if (userId.equals(id) || secondUserId.equals(id)) {
                 String text = msgObj.get("text").toString();
-                String msg = this.webhookHandler(text, secretKey);
+                String msg = URLEncoder.encode(this.webhookHandler(text, secretKey),
+                    StandardCharsets.UTF_8);
                 T chatObj = (T) msgObj.get("chat");
                 String chatId = chatObj.get("id").toString();
                 String telegramUri =
                     telegramUrl + telegramKey + "/sendMessage" + "?chat_id=" + chatId + "&text="
                         + msg;
-                String uri = URLEncoder.encode(telegramUri, StandardCharsets.UTF_8);
-                String resp = restClient.get().uri(uri).retrieve().body(String.class);
+                String resp = restClient.get().uri(telegramUri).retrieve().body(String.class);
                 LOGGER.info(resp);
             } else {
                 LOGGER.error("USER ID NOT VALID");
